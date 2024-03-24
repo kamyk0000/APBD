@@ -1,11 +1,49 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace LegacyApp
 {
+    public interface ICreditLimiter
+    {
+        string ClientType { get; }
+
+        void SetCreditLimit(User user);
+    }
+
+    public class VeryImportantClient : ICreditLimiter
+    {
+        public string ClientType => "VeryImportantClient";
+
+        public void SetCreditLimit(User user)
+        {
+            user.HasCreditLimit = false;
+        }
+    }
+    
+    public class ImportantClient : ICreditLimiter
+    {
+        public string ClientType => "ImportantClient";
+
+        public void SetCreditLimit(User user)
+        {
+            using var userCreditService = new UserCreditService();
+            user.CreditLimit = userCreditService.GetCreditLimit(user.LastName, user.DateOfBirth) * 2;
+        }
+    }
     public class UserService
     {
+        private readonly List<ICreditLimiter> _creditLimiters;
+
+        public UserService()
+        {
+            _creditLimiters = new List<ICreditLimiter>();
+        }
+
         public bool AddUser(string firstName, string lastName, string email, DateTime dateOfBirth, int clientId)
         {
+            
             if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
             {
                 return false;
@@ -37,6 +75,7 @@ namespace LegacyApp
                 LastName = lastName
             };
 
+            /*
             if (client.Type == "VeryImportantClient")
             {
                 user.HasCreditLimit = false;
@@ -64,9 +103,40 @@ namespace LegacyApp
             {
                 return false;
             }
-
+            */
+            //var user = new User(clientId, dateOfBirth, email, firstName, lastName);
+            
+            if (ProcessCreditLimit(user)) { return false; }
+                
             UserDataAccess.AddUser(user);
+            
             return true;
+
+            bool ProcessCreditLimit(User fUser)
+            {
+                var creditLimiters =_creditLimiters.FirstOrDefault(p => p.ClientType == client.Type);
+                creditLimiters?.SetCreditLimit(fUser);
+
+                if (creditLimiters == null)
+                {
+                    SetDefaultCreditLimit(fUser);
+                }
+
+                return ValidateCreditLimit(fUser);
+            }
+
+            void SetDefaultCreditLimit(User fUser)
+            {
+                fUser.HasCreditLimit = true;
+            
+                using var userCreditService = new UserCreditService();
+                fUser.CreditLimit = userCreditService.GetCreditLimit(fUser.LastName, fUser.DateOfBirth);
+            }
+            
+            bool ValidateCreditLimit(User fUser)
+            {
+                return fUser.HasCreditLimit && fUser.CreditLimit < 500;
+            }
         }
     }
 }

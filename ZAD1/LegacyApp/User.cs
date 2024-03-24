@@ -12,4 +12,7 @@ namespace LegacyApp
         public bool HasCreditLimit { get; internal set; }
         public int CreditLimit { get; internal set; }
     }
+
+   
+    
 }

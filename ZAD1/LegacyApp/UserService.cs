@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace LegacyApp
@@ -38,11 +37,16 @@ namespace LegacyApp
 
         public UserService()
         {
-            _creditLimiters = new List<ICreditLimiter>();
+            _creditLimiters = new List<ICreditLimiter>
+            {
+                new ImportantClient(),
+                new VeryImportantClient()
+            };
         }
 
         public bool AddUser(string firstName, string lastName, string email, DateTime dateOfBirth, int clientId)
         {
+            /*
             
             if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
             {
@@ -74,6 +78,7 @@ namespace LegacyApp
                 FirstName = firstName,
                 LastName = lastName
             };
+            */
 
             /*
             if (client.Type == "VeryImportantClient")
@@ -104,7 +109,9 @@ namespace LegacyApp
                 return false;
             }
             */
-            //var user = new User(clientId, dateOfBirth, email, firstName, lastName);
+            
+            var user = new User(firstName, lastName, email, dateOfBirth, clientId);
+            
             
             if (ProcessCreditLimit(user)) { return false; }
                 
@@ -114,7 +121,7 @@ namespace LegacyApp
 
             bool ProcessCreditLimit(User fUser)
             {
-                var creditLimiters =_creditLimiters.FirstOrDefault(p => p.ClientType == client.Type);
+                var creditLimiters =_creditLimiters.FirstOrDefault(p => p.ClientType == user.Client.Type);
                 creditLimiters?.SetCreditLimit(fUser);
 
                 if (creditLimiters == null)

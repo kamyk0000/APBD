@@ -86,4 +86,49 @@ public class UserTests
         });
     }
     
+    [Fact]
+    public void ClientRepository_GetById_Should_Throw_ArgumentException_When_Invalid_Id_Provided()
+    {
+        // Arrange
+        var repository = new ClientRepository();
+        int clientId = -1;
+        
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => // Missing at sign
+        {
+            var client = repository.GetById(clientId);
+        });
+    }
+    
+    [Fact]
+    public void UserCreditService_GetCreditLimit_Should_Throw_ArgumentException_When_Invalid_Client_Provided()
+    {
+        // Arrange
+        var service = new UserCreditService();
+        
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => 
+        {
+            service.GetCreditLimit("-1", new DateTime(2000, 1, 1));
+        });
+    }
+    
+    [Fact]
+    public void CreditLimitService_SetCreditLimit_Should_Throw_ArgumentException_When_Invalid_CreditLimit()
+    {
+        // Arrange
+        var mockUserCreditService = new Mock<IUserCreditService>();
+        mockUserCreditService.Setup(x => x.GetCreditLimit(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(100);
+        var user = new User("John", "Doe", "john.doe@example.com", new DateTime(1980, 1, 1),
+            new Client { ClientId = 1, Name = "Doe", Address = "Test Address", Email = "john.doe@example.com", Type = "Other" });
+        var service = new CreditLimitService(mockUserCreditService.Object);
+        
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => 
+        {
+            service.SetCreditLimit(user);
+        });
+    }
+    
 }
+    

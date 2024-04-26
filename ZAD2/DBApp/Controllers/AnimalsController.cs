@@ -1,8 +1,9 @@
-﻿using GakkoHorizontalSlice.Model;
-using GakkoHorizontalSlice.Services;
+﻿using DBApp.Models;
+using DBApp.Services;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
-namespace GakkoHorizontalSlice.Controllers;
+namespace DBApp.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -31,7 +32,7 @@ public class AnimalsController : ControllerBase
     /// </summary>
     /// /// <param name="orderBy">Column name to order by</param>
     /// <returns>Ordered list of animals</returns>
-    [HttpGet("{orderBy:string}")]
+    [HttpGet("{orderBy}")]
     public IActionResult GetAnimals(string orderBy)
     {
         var animals = _animalsService.GetAnimals(orderBy);
@@ -61,10 +62,11 @@ public class AnimalsController : ControllerBase
     /// </summary>
     /// <param name="animalJSON2">JSON2 formatted text with Animal contents</param>
     /// <returns>201 Created</returns>
-    [HttpPost("{animalJSON2:string}")]
-    public IActionResult CreateAnimal(string animalJSON2)
+    [HttpPost("{animalJSON2}")]
+    public IActionResult CreateAnimal([FromBody] JObject animalJSON2)
     {
-        var affectedCount = _animalsService.CreateAnimal(animalJSON2);
+        Animal? animal = animalJSON2.ToObject<Animal>();
+        var affectedCount = _animalsService.CreateAnimal(animal);
         return StatusCode(StatusCodes.Status201Created);
     }
     
@@ -73,10 +75,10 @@ public class AnimalsController : ControllerBase
     /// </summary>
     /// <param name="animalJSON2">JSON2 formatted text with Animal contents</param>
     /// <returns></returns>
-    [HttpPut("{animalJSON2:string}")]
-    public IActionResult UpdateAnimal(string animalJSON2)
+    [HttpPut("{animalJSON}")]
+    public IActionResult UpdateAnimal([FromBody]JObject animalJSON)
     {
-        var affectedCount = _animalsService.UpdateAnimal(animalJSON2);
+        var affectedCount = _animalsService.UpdateAnimal(animalJSON);
         return NoContent();
     }
     

@@ -1,7 +1,8 @@
 ﻿using System.Data.SqlClient;
-using GakkoHorizontalSlice.Model;
+using DBApp.Models;
+using Newtonsoft.Json.Linq;
 
-namespace GakkoHorizontalSlice.Repositories;
+namespace DBApp.Repositories;
 
 public class AnimalsRepository : IAnimalsRepository
 {
@@ -19,7 +20,7 @@ public class AnimalsRepository : IAnimalsRepository
         
         using var cmd = new SqlCommand();
         cmd.Connection = con;
-        cmd.CommandText = "SELECT IdAnimal, Name, Description, Category, Area FROM Animal WHERE IdAnimal = @IdAnimal";
+        cmd.CommandText = "SELECT IdAnimal, Name, Description, Category, Area FROM s24651.Animal WHERE IdAnimal = @IdAnimal";
         cmd.Parameters.AddWithValue("@IdAnimal", idAnimal);
         
         var dr = cmd.ExecuteReader();
@@ -28,11 +29,11 @@ public class AnimalsRepository : IAnimalsRepository
         
         var animal = new Animal()
         {
-            IdAnimal = (int)dr["IdAnimal"],
-            Name = dr["Name"].ToString(),
-            Description = dr["Description"].ToString(),
-            Category = dr["Category"].ToString(),
-            Area = dr["Area"].ToString()
+            IdAnimal = dr.GetInt32(dr.GetOrdinal("IdAnimal")),
+            Name = dr.GetString(dr.GetOrdinal("Name")),
+            Description = dr.IsDBNull(dr.GetOrdinal("Description")) ? "null" : dr.GetString(dr.GetOrdinal("Description")),
+            Category = dr.GetString(dr.GetOrdinal("Category")),
+            Area = dr.GetString(dr.GetOrdinal("Area"))
         };
         
         return animal;
@@ -91,19 +92,56 @@ public class AnimalsRepository : IAnimalsRepository
 
         return animals;
     }
-    //Will code these later!!
-    public int CreateAnimal(string animalJSON2)
+    
+    //CHANGE THEM SO THAT THEY USE A Animal OBJECT INSTEAD OF string!!!
+    public int CreateAnimal(Animal? animal)
     {
-        throw new NotImplementedException();
+        
+        using var con = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]);
+        con.Open();
+        
+        using var cmd = new SqlCommand();
+        cmd.Connection = con;
+        cmd.CommandText = "INSERT INTO Animal (Name, Description, Category, Area) VALUES(@Name, @Description, @Category, @Area)";
+        cmd.Parameters.AddWithValue("@Name", animal.Name);
+        cmd.Parameters.AddWithValue("@Description", animal.Description);
+        cmd.Parameters.AddWithValue("@Category", animal.Category);
+        cmd.Parameters.AddWithValue("@Area", animal.Area);
+        
+        var affectedCount = cmd.ExecuteNonQuery();
+        return affectedCount;
     }
 
-    public int UpdateAnimal(string animalJSON2)
+    public int UpdateAnimal(JObject animalJSON)
     {
-        throw new NotImplementedException();
+        Animal? animal = animalJSON.ToObject<Animal>();
+        
+        using var con = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]);
+        con.Open();
+        
+        using var cmd = new SqlCommand();
+        cmd.Connection = con;
+        cmd.CommandText = "UPDATE Animal SET Name=@Name, Description=@Description, Category=@Category, Area=@Area WHERE IdAnimal = @IdAnimal";
+        cmd.Parameters.AddWithValue("@Name", animal.Name);
+        cmd.Parameters.AddWithValue("@Description", animal.Description);
+        cmd.Parameters.AddWithValue("@Category", animal.Category);
+        cmd.Parameters.AddWithValue("@Area", animal.Area);
+        
+        var affectedCount = cmd.ExecuteNonQuery();
+        return affectedCount;
     }
     
     public int DeleteAnimal(int idAnimal)
     {
-        throw new NotImplementedException();
+        using var con = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]);
+        con.Open();
+        
+        using var cmd = new SqlCommand();
+        cmd.Connection = con;
+        cmd.CommandText = "DELETE FROM Animal WHERE IdAnimal = @IdAnimal";
+        cmd.Parameters.AddWithValue("@IdStudent", idAnimal);
+        
+        var affectedCount = cmd.ExecuteNonQuery();
+        return affectedCount;
     }
 }

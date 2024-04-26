@@ -1,14 +1,16 @@
-﻿using GakkoHorizontalSlice.Model;
+﻿using DBApp.Models;
+using Newtonsoft.Json.Linq;
 
-namespace GakkoHorizontalSlice.Repositories;
+namespace DBApp.Repositories;
 
 public interface IAnimalsRepository
 {
     Animal GetAnimal(int idAnimal);
     IEnumerable<Animal> GetAnimals();
+    
     IEnumerable<Animal> GetAnimals(string orderBy);
-    int CreateAnimal(string animalJSON2);
-    public int UpdateAnimal(string animalJSON2);
+    int CreateAnimal(Animal? animalJSON2);
+    public int UpdateAnimal(JObject animalJSON);
     public int DeleteAnimal(int idAnimal);
 
 }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GakkoHorizontalSlice.Model;
+namespace DBApp.Models;
 
 public class Animal
 {

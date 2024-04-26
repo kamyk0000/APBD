@@ -1,10 +1,13 @@
-using GakkoHorizontalSlice.Repositories;
-using GakkoHorizontalSlice.Services;
+using DBApp.Repositories;
+using DBApp.Services;
+
+namespace DBApp;
 
 public class Program
 {
     public static void Main(string[] args)
     {
+        //Test.Main2();
         var builder = WebApplication.CreateBuilder(args);
         
         //Registering services

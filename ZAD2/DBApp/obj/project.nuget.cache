@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "kkXPgP9j0s5JpsLENHW6Vxk5FUb6mOPMVM2EB2QhWO4bml+NBH/E46SvzeyKZ1Rmfvdx/vRDZRTFhYwenXlgkA==",
+  "dgSpecHash": "hBJEorPvN0c5VssRjbW5mZTXzBgquaKCzrP3tD6JY5IjPLag1WtaKPHjnDCLiu/X7yTEjTCKUFabhwaRlraILg==",
   "success": true,
   "projectFilePath": "D:\\Programowanie\\_APDB\\ZAD2\\DBApp\\DBApp.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,7 @@
     "C:\\Users\\kamyk\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\kamyk\\.nuget\\packages\\microsoft.openapi\\1.4.3\\microsoft.openapi.1.4.3.nupkg.sha512",
     "C:\\Users\\kamyk\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
+    "C:\\Users\\kamyk\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\kamyk\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.7.0\\runtime.native.system.data.sqlclient.sni.4.7.0.nupkg.sha512",
     "C:\\Users\\kamyk\\.nuget\\packages\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Users\\kamyk\\.nuget\\packages\\runtime.win-x64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",

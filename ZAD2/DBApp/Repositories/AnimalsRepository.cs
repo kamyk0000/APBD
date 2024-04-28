@@ -1,5 +1,6 @@
-﻿using System.Data.SqlClient;
+﻿
 using DBApp.Models;
+using Microsoft.Data.SqlClient;
 using Newtonsoft.Json.Linq;
 
 namespace DBApp.Repositories;
@@ -43,38 +44,37 @@ public class AnimalsRepository : IAnimalsRepository
     
     public IEnumerable<Animal> GetAnimals(string orderBy)
     {
+        string column;
+        
         switch (orderBy?.ToLower())
         {
             case "description":
-                orderBy = "Description";
+                column = "Description";
                 break;
             case "category":
-                orderBy = "Category";
+                column = "Category";
                 break;
             case "area":
-                orderBy = "Area";
+                column = "Area";
                 break;
             default:
-                orderBy = "Name";
+                column = "Name";
                 break;
         }
 
         var animals = new List<Animal>();
 
-        using var con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+        using var con = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]);
+        con.Open();
+        
         using var cmd = new SqlCommand();
         cmd.Connection = con;
-        cmd.CommandText = "SELECT IdAnimal, Name, Description, Category, Area FROM Animal ORDER BY @OrderBy";
-        cmd.Parameters.AddWithValue("@IdAnimal", orderBy);
-
-        try
-        {
-            con.Open();
-            using var dr = cmd.ExecuteReader();
-
+        cmd.CommandText = "SELECT IdAnimal, Name, Description, Category, Area FROM Animal ORDER BY " + column;
+        var dr = cmd.ExecuteReader();
+        
             while (dr.Read())
             {
-                var animal = new Animal
+                var animal = new Animal()
                 {
                     IdAnimal = dr.GetInt32(dr.GetOrdinal("IdAnimal")),
                     Name = dr.GetString(dr.GetOrdinal("Name")),
@@ -84,16 +84,11 @@ public class AnimalsRepository : IAnimalsRepository
                 };
                 animals.Add(animal);
             }
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("[ERROR] An error occurred while fetching animals from the database.", ex);
-        }
+        
 
         return animals;
     }
     
-    //CHANGE THEM SO THAT THEY USE A Animal OBJECT INSTEAD OF string!!!
     public int CreateAnimal(Animal? animal)
     {
         
@@ -139,7 +134,7 @@ public class AnimalsRepository : IAnimalsRepository
         using var cmd = new SqlCommand();
         cmd.Connection = con;
         cmd.CommandText = "DELETE FROM Animal WHERE IdAnimal = @IdAnimal";
-        cmd.Parameters.AddWithValue("@IdStudent", idAnimal);
+        cmd.Parameters.AddWithValue("@IdAnimal", idAnimal);
         
         var affectedCount = cmd.ExecuteNonQuery();
         return affectedCount;

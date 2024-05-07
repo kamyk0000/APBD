@@ -1,1 +1,1 @@
-Tu będzie zad3
+Znajduje się tu ćw3 i ćw4

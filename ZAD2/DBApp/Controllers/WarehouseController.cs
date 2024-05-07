@@ -22,7 +22,7 @@ public class WarehouseController : ControllerBase
     /// </summary>
     /// /// <param name="IdProduct, IdWarehouse, Amount, CreatedAt">Formatted request data</param>
     /// <returns>ID key of newly generated record for Product_Warehouse table</returns>
-    [HttpPost("{IdProduct, IdWarehouse, Amount, CreatedAt}")]
+    [HttpPost("RequestAddToWarehouse")]
     public async Task<IActionResult> CreateProductTransaction([FromBody] WarehouseRequest request)
     {
         try
@@ -37,68 +37,31 @@ public class WarehouseController : ControllerBase
         }
     }
     
-    
-    /*
-    [HttpPost]
-        public async Task<IActionResult> ProcessWarehouseRequest([FromBody] WarehouseRequest request)
+    /// <summary>
+    /// Endpoints used to process a order request in a sql procedure.
+    /// </summary>
+    /// /// <param name="IdProduct, IdWarehouse, Amount, CreatedAt">Formatted request data</param>
+    /// <returns>ID key of newly generated record for Product_Warehouse table</returns>
+    [HttpPost("AddToWarehouse")]
+    public async Task<IActionResult> AddProductToWarehouse([FromBody] WarehouseRequest request)
+    {
+        try
         {
-            try
+            var result = await _warehouseService.ProcessSqlRequestProcedure(request);
+            if (result != null)
             {
-                // Step 1: Check if the Product and Warehouse exist
-                var productExists = await _warehouseService.Product.AnyAsync(p => p.IdProduct == request.IdProduct);
-                var warehouseExists = await _warehouseService.Warehouse.AnyAsync(w => w.IdWarehouse == request.IdWarehouse);
-
-                if (!productExists || !warehouseExists)
-                {
-                    return BadRequest("Product or Warehouse not found");
-                }
-
-                // Step 2: Check if an Order exists with the provided IdProduct and amount
-                var orderExists = await _warehouseService.Order.AnyAsync(o => o.IdProduct == request.IdProduct 
-                                                                              && o.Amount == request.Amount && o.CreatedAt < request.CreatedAt);
-
-                if (!orderExists)
-                {
-                    return BadRequest("Order not found or transaction is outdated");
-                }
-
-                // Step 3: Check if the transaction has already been completed
-                var transactionCompleted = await _warehouseService.Product_Warehouse.AnyAsync(pw => pw.IdOrder == request.IdOrder);
-
-                if (transactionCompleted)
-                {
-                    return BadRequest("Transaction already completed");
-                }
-
-                // Step 4: Update FulFilledAt date of the transaction and insert record into Product_Warehouse table
-                var newProductWarehouse = new Product_Warehouse
-                {
-                    IdWarehouse = request.IdWarehouse,
-                    IdProduct = request.IdProduct,
-                    IdOrder = request.IdOrder,
-                    Amount = request.Amount,
-                    Price = request.Price * request.Amount,
-                    CreatedAt = request.CreatedAt
-                };
-
-                _warehouseService.Product_Warehouse.Add(newProductWarehouse);
-
-                var existingTransaction = await _warehouseService.Order.FirstOrDefaultAsync(o => o.IdOrder == request.IdOrder);
-                if (existingTransaction != null)
-                {
-                    existingTransaction.FulfilledAt = DateTime.Now;
-                }
-
-                await _warehouseService.SaveChangesAsync();
-
-                return Ok(newProductWarehouse.IdProductWarehouse);
+                return Ok(result);
             }
-            catch (Exception ex)
+            else
             {
-                // Handle exceptions appropriately
-                return StatusCode(500, "An error occurred while processing the request");
+                return BadRequest("Failed to add product to warehouse");
             }
         }
-        */
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error while adding product to warehouse: {ex.Message}");
+            return StatusCode(500, "An error occurred while processing the request");
+        }
+    }
     
 }

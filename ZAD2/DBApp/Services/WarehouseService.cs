@@ -56,11 +56,26 @@ public class WarehouseService : IWarehouseService
             Price = price * request.Amount,
             CreatedAt = request.CreatedAt
         };
+        
+        // 6: Return the key of inserted record;
+        var result = await _warehouseRepository.AddTransaction(newProductWarehouse);
 
-        await _warehouseRepository.AddTransaction(newProductWarehouse);
-
-        // 6: Return the key of inserted record
-        return newProductWarehouse.IdProductWarehouse;
+        if (result == null)
+        {
+            return "Something went wrong";
+        }
+        return result;
     }
 
+    public async Task<object> ProcessSqlRequestProcedure(WarehouseRequest request)
+    {
+        var result =  await _warehouseRepository.RunSqlProcedure(request.IdProduct, request.IdWarehouse, request.Amount, request.CreatedAt);
+        
+        if (result == null)
+        {
+            return "Something went wrong";
+        }
+        
+        return result;
+    }
 }

@@ -1,3 +1,4 @@
+using System.Data;
 using DBApp.Models;
 using DBApp.Services;
 using Microsoft.Data.SqlClient;
@@ -63,7 +64,7 @@ public class WarehouseRepository : IWarehouseRepository
         using (var connection = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]))
         {
             await connection.OpenAsync();
-            using (var command = new SqlCommand("SELECT IdOrder, CreatedAt FROM \"Order\" WHERE IdProduct = @ProductId AND Amount = @Amount AND CreatedAt < @CreatedAt ORDER BY CreatedAt DESC", connection))
+            using (var command = new SqlCommand("SELECT IdOrder, CreatedAt FROM [Order] WHERE IdProduct = @ProductId AND Amount = @Amount AND CreatedAt < @CreatedAt ORDER BY CreatedAt DESC", connection))
             {
                 command.Parameters.AddWithValue("@ProductId", productId);
                 command.Parameters.AddWithValue("@Amount", amount);
@@ -104,7 +105,7 @@ public class WarehouseRepository : IWarehouseRepository
         using (var connection = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]))
         {
             await connection.OpenAsync();
-            using (var command = new SqlCommand("UPDATE \"Order\" SET FulfilledAt = @FulfilledAt WHERE IdOrder = @OrderId", connection))
+            using (var command = new SqlCommand("UPDATE [Order] SET FulfilledAt = @FulfilledAt WHERE IdOrder = @OrderId", connection))
             {
                 command.Parameters.AddWithValue("@FulfilledAt", DateTime.Now);
                 command.Parameters.AddWithValue("@OrderId", orderId);
@@ -114,12 +115,12 @@ public class WarehouseRepository : IWarehouseRepository
         }
     }
 
-    public async Task<bool> AddTransaction(Product_Warehouse transaction)
+    public async Task<int?> AddTransaction(Product_Warehouse transaction)
     {
         using (var connection = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]))
         {
             await connection.OpenAsync();
-            using (var command = new SqlCommand("INSERT INTO Product_Warehouse (IdWarehouse, IdProduct, IdOrder, Amount, Price, CreatedAt) VALUES (@IdWarehouse, @IdProduct, @IdOrder, @Amount, @Price, @CreatedAt)", connection))
+            using (var command = new SqlCommand("INSERT INTO Product_Warehouse (IdWarehouse, IdProduct, IdOrder, Amount, Price, CreatedAt) OUTPUT INSERTED.IdProductWarehouse VALUES (@IdWarehouse, @IdProduct, @IdOrder, @Amount, @Price, @CreatedAt)", connection))
             {
                 command.Parameters.AddWithValue("@IdWarehouse", transaction.IdWarehouse);
                 command.Parameters.AddWithValue("@IdProduct", transaction.IdProduct);
@@ -127,12 +128,29 @@ public class WarehouseRepository : IWarehouseRepository
                 command.Parameters.AddWithValue("@Amount", transaction.Amount);
                 command.Parameters.AddWithValue("@Price", transaction.Price);
                 command.Parameters.AddWithValue("@CreatedAt", transaction.CreatedAt);
-                await command.ExecuteNonQueryAsync();
-                return true;
+
+                var newId = await command.ExecuteScalarAsync();
+                return newId != DBNull.Value ? Convert.ToInt32(newId) : (int?)null;
             }
         }
     }
 
-    
+    public async Task<int?> RunSqlProcedure(int productId, int warehouseId, int amount, DateTime createdAt)
+    {
+        using (var connection = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]))
+        {
+            await connection.OpenAsync();
+            using (var command = new SqlCommand("AddProductToWarehouse", connection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@IdProduct", productId);
+                command.Parameters.AddWithValue("@IdWarehouse", warehouseId);
+                command.Parameters.AddWithValue("@Amount", amount);
+                command.Parameters.AddWithValue("@CreatedAt", createdAt);
 
+                var result = await command.ExecuteScalarAsync();
+                return result != null ? Convert.ToInt32(result) : (int?)null;
+            }
+        }
+    }
 }

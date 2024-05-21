@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBApp", "DBApp\DBApp.csproj", "{2DC368D3-9EE3-4642-AF82-E882BE2652ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2DC368D3-9EE3-4642-AF82-E882BE2652ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DC368D3-9EE3-4642-AF82-E882BE2652ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DC368D3-9EE3-4642-AF82-E882BE2652ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DC368D3-9EE3-4642-AF82-E882BE2652ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

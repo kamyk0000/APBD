@@ -6,4 +6,5 @@ namespace DBApp.Services;
 public interface ITripService
 {
     Task<List<TripResponse>> GetTripsAsync();
+    Task<bool> AssignClientToTripAsync(ClientTripRequest request);
 }

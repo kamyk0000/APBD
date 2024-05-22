@@ -1,4 +1,5 @@
 using DBApp.Models;
+using DBApp.Requests;
 using DBApp.Responses;
 using Microsoft.Data.SqlClient;
 
@@ -43,7 +44,7 @@ public class TripRepository : ITripRepository
         }
     }
     
-    public async Task<List<CountryNameRespone>> GetCountryNamesForTrip(int tripId)
+    public async Task<List<CountryNameRespone>> GetCountryNamesForTripAsync(int tripId)
     {
         var countries = new List<CountryNameRespone>();
         using (var connection = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]))
@@ -70,7 +71,7 @@ public class TripRepository : ITripRepository
         }
     }
     
-    public async Task<List<ClientNamesResponse>> GetClientNamesForTrip(int tripId)
+    public async Task<List<ClientNamesResponse>> GetClientNamesForTripAsync(int tripId)
     {
         var clients = new List<ClientNamesResponse>();
         using (var connection = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]))
@@ -97,5 +98,17 @@ public class TripRepository : ITripRepository
             }
         }
     }
-    
+
+    public async Task<bool> TripExistsAsync(int tripId)
+    {
+        using (var connection = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"])) 
+        {
+            await connection.OpenAsync();
+            using (var command = new SqlCommand("SELECT COUNT(*) FROM trip.Trip WHERE IdTrip = @TripId", connection)) // AND Name = @TripName ?
+            { 
+                command.Parameters.AddWithValue("@TripId", tripId); 
+                return (int)await command.ExecuteScalarAsync() > 0 ? true : throw new Exception("Trip does not exist");
+            }
+        }
+    }
 }

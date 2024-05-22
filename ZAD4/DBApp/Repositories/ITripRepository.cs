@@ -1,4 +1,5 @@
 using DBApp.Models;
+using DBApp.Requests;
 using DBApp.Responses;
 
 namespace DBApp.Repositories;
@@ -6,6 +7,7 @@ namespace DBApp.Repositories;
 public interface ITripRepository
 {
     Task<List<Trip>> GetAllTripsAsync();
-    Task<List<CountryNameRespone>> GetCountryNamesForTrip(int tripId);
-    Task<List<ClientNamesResponse>> GetClientNamesForTrip(int tripId);
+    Task<List<CountryNameRespone>> GetCountryNamesForTripAsync(int tripId);
+    Task<List<ClientNamesResponse>> GetClientNamesForTripAsync(int tripId);
+    Task<bool> TripExistsAsync(int tripId);
 }

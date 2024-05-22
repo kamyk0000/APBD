@@ -30,7 +30,7 @@ public class ClientController : ControllerBase
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error deleting client: {ex.Message}");
+            Console.WriteLine($"Error deleting client: {ex}");
             return StatusCode(500, $"An error occurred while deleting the client: {ex.Message}");
         }
     }

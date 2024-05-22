@@ -32,16 +32,16 @@ public class TripController : ControllerBase
     }
     
     [HttpPost("{idTrip}/Client")]
-    public async Task<IActionResult> AssignClientToTrip(int idTrip, [FromBody] ClientTripRequest request)
+    public async Task<IActionResult> AssignClientToTrip([FromBody] ClientTripRequest request)
     {
         try
         {
-            request.IdTrip = idTrip;
-            await _tripService.AssignClientToTripAsync(request);
-            return Ok("Client assigned to trip successfully.");
+            var result = await _tripService.AssignClientToTripAsync(request);
+            return Ok(result);
         }
         catch (Exception ex)
         {
+            Console.WriteLine($"Error assigning a client: {ex}");
             return BadRequest(new { message = ex.Message });
         }
     }

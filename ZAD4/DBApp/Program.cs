@@ -14,8 +14,12 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddControllers();
+        //Trips
         builder.Services.AddScoped<ITripRepository, TripRepository>();
         builder.Services.AddScoped<ITripService, TripService>();
+        //Clients
+        builder.Services.AddScoped<IClientRepository, ClientRepository>();
+        builder.Services.AddScoped<IClientService, ClientService>();
 
         var app = builder.Build();
 

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zPbkvASFNzraXasMbyjINnp+gT4O+3A9XaMZxAVm6QXzmWFVhn2iIAXa/792rxqVVuQOAYVr62RSFU8s/t6LSA==",
+  "dgSpecHash": "C/sozRnpmb6xT5/AXwrlYtsW3cP7SdF1zNJH+kaiYx3JSFHuqtpR5tqLt8+A9Qj5V5WVxqd7ru4evZGwbUktOA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\kamyk\\Downloads\\ZAD4\\DBApp\\DBApp.csproj",
+  "projectFilePath": "D:\\Programowanie\\_APDB\\ZAD4\\DBApp\\DBApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\kamyk\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\kamyk\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

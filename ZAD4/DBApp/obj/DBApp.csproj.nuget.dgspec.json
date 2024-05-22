@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kamyk\\Downloads\\ZAD4\\DBApp\\DBApp.csproj": {}
+    "D:\\Programowanie\\_APDB\\ZAD4\\DBApp\\DBApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kamyk\\Downloads\\ZAD4\\DBApp\\DBApp.csproj": {
+    "D:\\Programowanie\\_APDB\\ZAD4\\DBApp\\DBApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kamyk\\Downloads\\ZAD4\\DBApp\\DBApp.csproj",
+        "projectUniqueName": "D:\\Programowanie\\_APDB\\ZAD4\\DBApp\\DBApp.csproj",
         "projectName": "DBApp",
-        "projectPath": "C:\\Users\\kamyk\\Downloads\\ZAD4\\DBApp\\DBApp.csproj",
+        "projectPath": "D:\\Programowanie\\_APDB\\ZAD4\\DBApp\\DBApp.csproj",
         "packagesPath": "C:\\Users\\kamyk\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kamyk\\Downloads\\ZAD4\\DBApp\\obj\\",
+        "outputPath": "D:\\Programowanie\\_APDB\\ZAD4\\DBApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\kamyk\\AppData\\Roaming\\NuGet\\NuGet.Config"

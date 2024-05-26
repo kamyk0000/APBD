@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\s24651\\Downloads\\ZAD4\\DBApp\\DBApp.csproj": {}
+    "D:\\Programowanie\\_APDB\\ZAD5\\DBApp\\DBApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\s24651\\Downloads\\ZAD4\\DBApp\\DBApp.csproj": {
+    "D:\\Programowanie\\_APDB\\ZAD5\\DBApp\\DBApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\s24651\\Downloads\\ZAD4\\DBApp\\DBApp.csproj",
+        "projectUniqueName": "D:\\Programowanie\\_APDB\\ZAD5\\DBApp\\DBApp.csproj",
         "projectName": "DBApp",
-        "projectPath": "C:\\Users\\s24651\\Downloads\\ZAD4\\DBApp\\DBApp.csproj",
-        "packagesPath": "C:\\Users\\s24651\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\s24651\\Downloads\\ZAD4\\DBApp\\obj\\",
+        "projectPath": "D:\\Programowanie\\_APDB\\ZAD5\\DBApp\\DBApp.csproj",
+        "packagesPath": "C:\\Users\\kamyk\\.nuget\\packages\\",
+        "outputPath": "D:\\Programowanie\\_APDB\\ZAD5\\DBApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\s24651\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\kamyk\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -67,6 +65,14 @@
               "target": "Package",
               "version": "[9.0.0-preview.4.24267.1, )"
             },
+            "Microsoft.NETCore.Platforms": {
+              "target": "Package",
+              "version": "[8.0.0-preview.7.23375.6, )"
+            },
+            "Microsoft.NETCore.Targets": {
+              "target": "Package",
+              "version": "[6.0.0-preview.4.21253.7, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"
@@ -95,7 +101,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

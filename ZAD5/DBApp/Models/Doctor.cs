@@ -2,10 +2,9 @@ namespace DBApp.Models;
 
 public class Doctor
 {
-    public int IdDoctor;
-    public string FirstName;
-    public string LastName;
-    public string Email;
-    public Prescription Prescription;
-    public int IdPrescription;
+    public int IdDoctor { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Email { get; set; }
+    public ICollection<Prescription> Prescriptions { get; set; }
 }

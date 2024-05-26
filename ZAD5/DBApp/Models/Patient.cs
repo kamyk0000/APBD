@@ -2,10 +2,9 @@ namespace DBApp.Models;
 
 public class Patient
 {
-    public int IdPatient;
-    public string FirstName;
-    public string LastName;
-    public DateTime Birthdate;
-    public Prescription Prescription;
-    public int IdPrescription;
+    public int IdPatient { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public DateTime Birthdate { get; set; }
+    public ICollection<Prescription> Prescriptions { get; set; }
 }

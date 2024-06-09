@@ -5,7 +5,8 @@ Tu będzie zad4 (cw5)
 
 
 delete json from /.config
- 
+
+jdbc:jtds:sqlserver://db-mssql.pjwstk.edu.pl/s24651
 db-mssql.pjwstk.edu.pl
 USENTLMV2: true
 DOMAIN: PJWSTK
